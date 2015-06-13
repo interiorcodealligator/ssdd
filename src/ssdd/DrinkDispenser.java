@@ -61,7 +61,8 @@ public class DrinkDispenser {
 		for(int i = 0; i < selectedDrinks.size(); i++){
 			Item stock = drinkStock.get(i);
 			Item selected = selectedDrinks.get(i);
-			for(int j = 0; j < selected.getQuantity(); j++) stock.takeOne();
+			for(int j = 0; j < selected.getQuantity(); j++) 
+				stock.takeOne();
 		}
 	}
 

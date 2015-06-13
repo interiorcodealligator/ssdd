@@ -53,7 +53,7 @@ public class CardSystem {
 	 */
 	public void processPayment(double totalDue) {
 		// TODO - implement CardSystem.processPayment
-		bankCard.setBalance(bankCard.getBalance() - totalDue);
+		bankCard.setBalance(bankCard.getBalance() - totalDue);		
 	}
 
 	/**

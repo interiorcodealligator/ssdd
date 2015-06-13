@@ -33,6 +33,7 @@ public class MoneySystem {
 	}
 	
 	public void setTotalDue(double totalDue) {
+		totalDue = fixDoubleError(totalDue);
 		this.totalDue = totalDue;
 	}
 
@@ -55,6 +56,8 @@ public class MoneySystem {
 		};
 		for(Money e : temp)
 			allMoney.add(e);
+		this.insertedMoney = 0.00;
+		this.totalDue = 0.00;
 	}
 
 	/**
@@ -115,6 +118,13 @@ public class MoneySystem {
 		// TODO Auto-generated method stub
 		allMoney.get(moneyIndex).addOne();
 		insertedMoney += this.getMoneyInfo(moneyIndex).getValue();
+	}
+	
+	public double fixDoubleError(double value){
+		value *= 100;
+		value = (int)value;
+		value /= 100;
+		return value;
 	}
 
 }

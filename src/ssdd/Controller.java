@@ -22,17 +22,18 @@ public class Controller {
 			selectedDrinks.add(clone);
 		}
 		mainGUI = new MainGUI(this);
+		
 	}
 	/**
 	 * 
 	 * @param drinkIndex
 	 */
 	public void addDrink(int drinkIndex) {
-		// TODO - implement Controller.addDrink
 		Item currentDrink = this.drinkDispenser.getDrinkInfo(drinkIndex);
 		if(this.drinkDispenser.checkIfDrinkAvailable(currentDrink, selectedDrinks.get(drinkIndex).getQuantity())){
 			this.selectedDrinks.get(drinkIndex).addOne();
 			double totalDue = this.calculateTotalDue();
+			this.fixDoubleError(totalDue);
 			this.moneySystem.setTotalDue(totalDue);
 			this.mainGUI.updateSelectedDrink(drinkIndex, selectedDrinks.get(drinkIndex).getQuantity());
 			this.mainGUI.updateTotalDue(totalDue);
@@ -43,11 +44,11 @@ public class Controller {
 	 * 
 	 * @param drinkIndex
 	 */
-	public void removeDrink(int drinkIndex) {
-		// TODO - implement Controller.removeDrink	
+	public void removeDrink(int drinkIndex) {		
 		if(selectedDrinks.get(drinkIndex).getQuantity() > 0){
 			this.selectedDrinks.get(drinkIndex).takeOne();		
 			double totalDue = this.calculateTotalDue();
+			this.fixDoubleError(totalDue);
 			this.moneySystem.setTotalDue(totalDue);
 			this.mainGUI.updateSelectedDrink(drinkIndex, selectedDrinks.get(drinkIndex).getQuantity());
 			this.mainGUI.updateTotalDue(totalDue);
@@ -55,8 +56,7 @@ public class Controller {
 	}
 
 	public void updateDrinksStock() {
-		// TODO - implement Controller.updateDrinksStock
-		//throw new UnsupportedOperationException();
+		this.mainGUI.updateStockLabels();
 	}
 
 	/**
@@ -64,7 +64,6 @@ public class Controller {
 	 * @param moneyIndex
 	 */
 	public void insertMoney(int moneyIndex) {
-		// TODO - implement Controller.insertMoney
 		if(this.moneySystem.getTotalDue() > 0){
 			this.moneySystem.incrementMoney(moneyIndex);
 			if(this.moneySystem.checkIfPaymentComplete()){
@@ -84,13 +83,13 @@ public class Controller {
 	 * @param card
 	 */
 	public void insertCard(long accountNo) {
-		// TODO - implement Controller.insertCard
 		double totalDue = moneySystem.getTotalDue();
 		this.cardSystem.insertCard(cardSystem.getCard(accountNo));
 		if(this.cardSystem.hasEnoughBalance(totalDue)){
 			this.cardSystem.processPayment(totalDue);
-			Card returned = this.cardSystem.returnCard();
-			finalizeOrder(returned);
+			this.mainGUI.setAccBalanceLabel(totalDue);
+			Card returnedCard = this.cardSystem.returnCard();
+			finalizeOrder(returnedCard);
 		}
 		else{
 			this.mainGUI.outputText("You don't have money");
@@ -98,7 +97,6 @@ public class Controller {
 	}
 
 	/*public void processMoneyPayment() {
-		// TODO - implement Controller.processMoneyPayment
 		throw new UnsupportedOperationException();
 	}
 
@@ -117,11 +115,12 @@ public class Controller {
 		 */
 		this.drinkDispenser.dispenseDrinks(selectedDrinks);
 		double plannedChange = this.moneySystem.getInsertedMoney() - this.moneySystem.getTotalDue();
+		plannedChange = this.fixDoubleError(plannedChange);
 		List<Money> change = this.moneySystem.returnChange(plannedChange);
-		String output = "";
+		String output = "";		
 		double givenChange = 0.0;
-		output += "You paid " + this.moneySystem.getInsertedMoney() + "\n";
-		output += "Due was " + this.moneySystem.getTotalDue() + "\n";
+		output += "You paid: " + this.moneySystem.getInsertedMoney() + "\n";
+		output += "Due was: " + this.moneySystem.getTotalDue() + "\n";
 		output += "Drinks: \n";
 		for(Item d : selectedDrinks){
 			if(d.getQuantity() != 0) output += "Got " + d.getQuantity() + " " + d.getName() + "\n";
@@ -129,30 +128,15 @@ public class Controller {
 		output += "Change: \n";
 		for(Money coin : change)
 		{
-			output += "Got " + coin.getName() + " (" + coin.getQuantity() + ")\n";
+			output += "Got " + coin.getQuantity() + " x " + coin.getName() + "\n";
 			givenChange += coin.getValue() * coin.getQuantity();
 		}
-		plannedChange *= 100;
-		plannedChange = Math.round(plannedChange);
-		plannedChange /= 100;
-		if(givenChange != plannedChange) output += "Oops sorry no more change!" + givenChange + " " + plannedChange;
+		givenChange = this.fixDoubleError(givenChange);	
+		plannedChange = this.fixDoubleError(plannedChange);
+		if(givenChange != plannedChange) output += "Oops sorry no more change!" + " " + givenChange + " " + plannedChange;
 		this.mainGUI.outputText(output);
 		
 		this.reset();
-	}
-	
-	public void reset(){
-		this.moneySystem.setTotalDue(0.0);
-		this.moneySystem.setInsertedMoney(0.0);
-		this.updateDrinksStock();
-		this.mainGUI.updateInsertedMoney(0.0);
-		this.mainGUI.updateTotalDue(0.0);
-		int i = 0;
-		for(Item drink : selectedDrinks){
-			drink.setQuantity(0);
-			this.mainGUI.updateSelectedDrink(i, 0);
-			i++;
-		}	
 	}
 	
 	public void finalizeOrder(Card card){
@@ -163,6 +147,33 @@ public class Controller {
 		 * 3. output
 		 * 4. reset
 		 */
+		this.drinkDispenser.dispenseDrinks(selectedDrinks);		
+		String output = "";		
+		output += "You paid: " + this.moneySystem.getTotalDue() + "\n";
+		output += "Drinks: \n";
+		for(Item d : selectedDrinks){
+			if(d.getQuantity() != 0) output += "Got " + d.getQuantity() + " " + d.getName() + "\n";
+		}
+		
+		output += "Payment successful, pick up your drinks!\n";
+		this.mainGUI.outputText(output);
+		this.mainGUI.setAccBalanceLabel(card.getBalance());
+		
+		this.reset();
+	}
+	
+	public void reset(){
+		this.moneySystem.setTotalDue(0.00);
+		this.moneySystem.setInsertedMoney(0.00);
+		this.updateDrinksStock();
+		this.mainGUI.updateInsertedMoney(0.00);
+		this.mainGUI.updateTotalDue(0.00);
+		int i = 0;
+		for(Item drink : selectedDrinks){
+			drink.setQuantity(0);
+			this.mainGUI.updateSelectedDrink(i, 0);
+			i++;
+		}	
 	}
 
 	/**
@@ -170,14 +181,12 @@ public class Controller {
 	 * @param accountNo
 	 */
 	public double doMagic(long accountNo) {
-		// TODO - implement Controller.doMagic
 		Card card = this.cardSystem.doMagic(accountNo);
 		return card.getBalance();
 	}
 
 	public double calculateTotalDue() {
-		// TODO - implement Controller.calculateTotalDue
-		double total=0;
+		double total = 0;
 		for(Item e : this.selectedDrinks){
 			total += e.getValue()*e.getQuantity();
 		}
@@ -192,7 +201,7 @@ public class Controller {
 			double total = 0;
 			for(Money coin : change)
 			{
-				changeOutput += "Got " + coin.getName() + " (" + coin.getQuantity() + ")\n";
+				changeOutput += "Got " + coin.getQuantity() + " x "+ coin.getName() + "\n";
 				total += coin.getValue() * coin.getQuantity();
 			}
 			if(total != insertedMoney) changeOutput += "Oops sorry no more change!";
@@ -208,5 +217,11 @@ public class Controller {
 	public List<Money> getMoneyStock(){
 		return this.moneySystem.getAllMoney();
 	}
-
+	
+	public double fixDoubleError(double value){
+		value *= 100;
+		value = (int)value;
+		value /= 100;
+		return value;
+	}
 }

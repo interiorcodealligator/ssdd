@@ -11,16 +11,13 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CLabel;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Group;
 
 
 public class MainGUI {
@@ -34,16 +31,16 @@ public class MainGUI {
 	Button[] drinksPlusButtons = new Button[10];
 	Button[] drinksMinusButtons = new Button[10];
 	Label[] drinksSelectedLabels = new Label[10];
-	Button[] moneyButtons = new Button[8];
+	Button[] moneyButtons = new Button[8];	
+	Label[] drinksStockLabels = new Label[10];
+			
 	private Controller controller;
 	private Label lblInsertedMoneyVal;
 	private Label lblTotalDueVal;
 	private List<Item> allDrinks;
 	private List<Money> allMoney;
 	private Button btnInsertCard;
-
-	
-	
+		
 	public MainGUI(Controller controller){
 		this.controller = controller;
 		this.controller.mainGUI = this;
@@ -58,7 +55,9 @@ public class MainGUI {
 	public void open() {
 		display = Display.getDefault();
 		createContents();
-		shlSelfserviceDrinkDispenser.pack();			
+		shlSelfserviceDrinkDispenser.pack();					
+		
+		
 		shlSelfserviceDrinkDispenser.open();
 		shlSelfserviceDrinkDispenser.layout();
 		while (!shlSelfserviceDrinkDispenser.isDisposed()) {
@@ -75,7 +74,7 @@ public class MainGUI {
 		shlSelfserviceDrinkDispenser = new Shell();
 		shlSelfserviceDrinkDispenser.setMinimumSize(new Point(1200, 750));
 		shlSelfserviceDrinkDispenser.setSize(1200, 754);
-		shlSelfserviceDrinkDispenser.setText("Self-Service Drink Dispenser");
+		shlSelfserviceDrinkDispenser.setText("Self-Service Drink Dispenser");		
 		
 		Label lblAnnounce = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
 		lblAnnounce.setFont(SWTResourceManager.getFont("Segoe UI Semibold", 14, SWT.NORMAL));
@@ -140,97 +139,247 @@ public class MainGUI {
 		wine = new Image(display, wine.getImageData().scaledTo(140, 140));		
 		Label drink10Label = new Label(shlSelfserviceDrinkDispenser, SWT.BORDER);
 		drink10Label.setImage(wine);
-		drink10Label.setBounds(610, 297, 140, 140);
+		drink10Label.setBounds(610, 297, 140, 140);		
 		
+		Label lblPrice1 = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
+		lblPrice1.setBounds(10, 41, 30, 15);
+		lblPrice1.setText("Price:");
+		
+		Label lblPrice2 = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
+		lblPrice2.setText("Price:");
+		lblPrice2.setBounds(160, 41, 30, 15);
+
+		Label lblPrice3 = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
+		lblPrice3.setText("Price:");
+		lblPrice3.setBounds(310, 41, 30, 15);
+		
+		Label lblPrice4 = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
+		lblPrice4.setText("Price:");
+		lblPrice4.setBounds(460, 41, 30, 15);
+		
+		Label lblPrice5 = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
+		lblPrice5.setText("Price:");
+		lblPrice5.setBounds(610, 41, 30, 15);
+		
+		Label lblPrice6 = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
+		lblPrice6.setText("Price:");
+		lblPrice6.setBounds(10, 276, 30, 15);
+		
+		Label lblPrice7 = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
+		lblPrice7.setText("Price:");
+		lblPrice7.setBounds(160, 276, 30, 15);
+		
+		Label lblPrice8 = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
+		lblPrice8.setText("Price:");
+		lblPrice8.setBounds(310, 276, 30, 15);
+		
+		Label lblPrice9 = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
+		lblPrice9.setText("Price:");
+		lblPrice9.setBounds(460, 276, 30, 15);
+		
+		Label lblPrice10 = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
+		lblPrice10.setText("Price:");
+		lblPrice10.setBounds(610, 276, 30, 15);
+		
+		Label drink1Price = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
+		drink1Price.setAlignment(SWT.RIGHT);
+		drink1Price.setText(String.valueOf(controller.getDrinkStock().get(1).getValue()));
+		drink1Price.setBounds(42, 41, 35, 15);					
+		
+		Label drink2Price = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
+		drink2Price.setAlignment(SWT.RIGHT);
+		drink2Price.setText("0");
+		drink2Price.setBounds(192, 41, 35, 15);
+		
+		Label drink3Price = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
+		drink3Price.setText("0");
+		drink3Price.setAlignment(SWT.RIGHT);
+		drink3Price.setBounds(342, 41, 35, 15);
+		
+		Label drink4Price = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
+		drink4Price.setText("0");
+		drink4Price.setAlignment(SWT.RIGHT);
+		drink4Price.setBounds(492, 41, 35, 15);
+		
+		Label drink5Price = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
+		drink5Price.setText("0");
+		drink5Price.setAlignment(SWT.RIGHT);
+		drink5Price.setBounds(642, 41, 35, 15);
+		
+		Label drink6Price = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
+		drink6Price.setText("0");
+		drink6Price.setAlignment(SWT.RIGHT);
+		drink6Price.setBounds(42, 276, 35, 15);
+		
+		Label drink7Price = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
+		drink7Price.setText("0");
+		drink7Price.setAlignment(SWT.RIGHT);
+		drink7Price.setBounds(192, 276, 35, 15);
+		
+		Label drink8Price = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
+		drink8Price.setText("0");
+		drink8Price.setAlignment(SWT.RIGHT);
+		drink8Price.setBounds(342, 276, 35, 15);
+		
+		Label drink9Price = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
+		drink9Price.setText("0");
+		drink9Price.setAlignment(SWT.RIGHT);
+		drink9Price.setBounds(492, 276, 35, 15);
+		
+		Label drink10Price = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
+		drink10Price.setText("0");
+		drink10Price.setAlignment(SWT.RIGHT);
+		drink10Price.setBounds(642, 276, 35, 15);
+		
+		Label lblAdded1 = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
+		lblAdded1.setAlignment(SWT.RIGHT);
+		lblAdded1.setBounds(81, 222, 42, 15);
+		lblAdded1.setText("Added:");
+		
+		Label lblAdded2 = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
+		lblAdded2.setAlignment(SWT.RIGHT);
+		lblAdded2.setText("Added:");
+		lblAdded2.setBounds(230, 222, 42, 15);		
+		
+		Label lblAdded3 = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
+		lblAdded3.setAlignment(SWT.RIGHT);
+		lblAdded3.setText("Added:");
+		lblAdded3.setBounds(380, 222, 42, 15);
+		
+		Label lblAdded4 = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
+		lblAdded4.setAlignment(SWT.RIGHT);
+		lblAdded4.setText("Added:");
+		lblAdded4.setBounds(530, 222, 42, 15);
+		
+		Label lblAdded5 = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
+		lblAdded5.setAlignment(SWT.RIGHT);
+		lblAdded5.setText("Added:");
+		lblAdded5.setBounds(680, 222, 42, 15);		
+	
+		Label lblAdded8 = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
+		lblAdded8.setAlignment(SWT.RIGHT);
+		lblAdded8.setText("Added:");
+		lblAdded8.setBounds(380, 458, 42, 15);
+		
+		Label lblAdded7 = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
+		lblAdded7.setAlignment(SWT.RIGHT);
+		lblAdded7.setText("Added:");
+		lblAdded7.setBounds(230, 458, 42, 15);
+		
+		Label lblAdded6 = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
+		lblAdded6.setAlignment(SWT.RIGHT);
+		lblAdded6.setText("Added:");
+		lblAdded6.setBounds(81, 458, 42, 15);
+		
+		Label lblAdded9 = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
+		lblAdded9.setAlignment(SWT.RIGHT);
+		lblAdded9.setText("Added:");
+		lblAdded9.setBounds(530, 458, 42, 15);
+		
+		Label lblAdded10 = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
+		lblAdded10.setAlignment(SWT.RIGHT);
+		lblAdded10.setText("Added:");
+		lblAdded10.setBounds(682, 458, 42, 15);
+				
 		Label lblStock1 = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
-		lblStock1.setBounds(10, 41, 42, 15);
+		lblStock1.setAlignment(SWT.RIGHT);
+		lblStock1.setBounds(83, 41, 40, 15);
 		lblStock1.setText("Stock:");
 		
 		Label drink1StockLbl = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
 		drink1StockLbl.setAlignment(SWT.RIGHT);
-		drink1StockLbl.setBounds(71, 41, 42, 15);
+		drink1StockLbl.setBounds(125, 41, 25, 15);
 		drink1StockLbl.setText("0");
 		
 		Label lblStock2 = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
+		lblStock2.setAlignment(SWT.RIGHT);
 		lblStock2.setText("Stock:");
-		lblStock2.setBounds(160, 41, 42, 15);
+		lblStock2.setBounds(232, 41, 40, 15);
 		
 		Label drink2StockLbl = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
 		drink2StockLbl.setText("0");
 		drink2StockLbl.setAlignment(SWT.RIGHT);
-		drink2StockLbl.setBounds(208, 41, 55, 15);
+		drink2StockLbl.setBounds(275, 41, 25, 15);
 		
 		Label lblStock3 = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
+		lblStock3.setAlignment(SWT.RIGHT);
 		lblStock3.setText("Stock:");
-		lblStock3.setBounds(312, 41, 42, 15);
+		lblStock3.setBounds(382, 41, 40, 15);
 		
 		Label drink3StockLbl = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
 		drink3StockLbl.setText("0");
 		drink3StockLbl.setAlignment(SWT.RIGHT);
-		drink3StockLbl.setBounds(360, 41, 55, 15);
+		drink3StockLbl.setBounds(425, 41, 25, 15);
 		
 		Label drink4StockLbl = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
 		drink4StockLbl.setText("0");
 		drink4StockLbl.setAlignment(SWT.RIGHT);
-		drink4StockLbl.setBounds(514, 41, 55, 15);
+		drink4StockLbl.setBounds(575, 41, 25, 15);
 		
 		Label drink5StockLbl = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
 		drink5StockLbl.setText("0");
 		drink5StockLbl.setAlignment(SWT.RIGHT);
-		drink5StockLbl.setBounds(656, 41, 55, 15);
+		drink5StockLbl.setBounds(725, 41, 25, 15);
 		
 		Label drink6StockLbl = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
 		drink6StockLbl.setText("0");
 		drink6StockLbl.setAlignment(SWT.RIGHT);
-		drink6StockLbl.setBounds(58, 276, 55, 15);
+		drink6StockLbl.setBounds(125, 276, 25, 15);
 		
 		Label drink7StockLbl = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
 		drink7StockLbl.setText("0");
 		drink7StockLbl.setAlignment(SWT.RIGHT);
-		drink7StockLbl.setBounds(208, 276, 55, 15);
+		drink7StockLbl.setBounds(275, 276, 25, 15);
 		
 		Label drink8StockLbl = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
 		drink8StockLbl.setText("0");
 		drink8StockLbl.setAlignment(SWT.RIGHT);
-		drink8StockLbl.setBounds(360, 276, 55, 15);
+		drink8StockLbl.setBounds(425, 276, 25, 15);
 		
 		Label drink9StockLbl = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
 		drink9StockLbl.setText("0");
 		drink9StockLbl.setAlignment(SWT.RIGHT);
-		drink9StockLbl.setBounds(514, 276, 55, 15);
+		drink9StockLbl.setBounds(575, 276, 25, 15);
 		
 		Label drink10StockLbl = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
 		drink10StockLbl.setText("0");
 		drink10StockLbl.setAlignment(SWT.RIGHT);
-		drink10StockLbl.setBounds(656, 276, 55, 15);
+		drink10StockLbl.setBounds(725, 276, 25, 15);
 		
 		Label lblStock6 = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
+		lblStock6.setAlignment(SWT.RIGHT);
 		lblStock6.setText("Stock:");
-		lblStock6.setBounds(10, 276, 42, 15);
+		lblStock6.setBounds(83, 276, 40, 15);
 		
 		Label lblStock7 = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
+		lblStock7.setAlignment(SWT.RIGHT);
 		lblStock7.setText("Stock:");
-		lblStock7.setBounds(160, 276, 42, 15);
+		lblStock7.setBounds(232, 276, 40, 15);
 		
 		Label lblStock8 = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
+		lblStock8.setAlignment(SWT.RIGHT);
 		lblStock8.setText("Stock:");
-		lblStock8.setBounds(312, 276, 42, 15);
+		lblStock8.setBounds(382, 276, 40, 15);
 		
 		Label lblStock9 = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
+		lblStock9.setAlignment(SWT.RIGHT);
 		lblStock9.setText("Stock:");
-		lblStock9.setBounds(458, 276, 42, 15);
+		lblStock9.setBounds(532, 276, 40, 15);
 		
 		Label lblStock10 = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
+		lblStock10.setAlignment(SWT.RIGHT);
 		lblStock10.setText("Stock:");
-		lblStock10.setBounds(610, 276, 42, 15);
+		lblStock10.setBounds(682, 276, 42, 15);
 		
 		Label lblStock5 = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
+		lblStock5.setAlignment(SWT.RIGHT);
 		lblStock5.setText("Stock:");
-		lblStock5.setBounds(610, 41, 42, 15);
+		lblStock5.setBounds(682, 41, 40, 15);
 		
 		Label lblStock4 = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
+		lblStock4.setAlignment(SWT.RIGHT);
 		lblStock4.setText("Stock:");
-		lblStock4.setBounds(458, 41, 42, 15);
+		lblStock4.setBounds(532, 41, 40, 15);
 		
 		Button drink1PlusBtn = new Button(shlSelfserviceDrinkDispenser, SWT.NONE);
 		drink1PlusBtn.setBounds(10, 217, 25, 25);
@@ -254,13 +403,13 @@ public class MainGUI {
 		
 		Label drink1SelectedLbl = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
 		drink1SelectedLbl.setAlignment(SWT.RIGHT);
-		drink1SelectedLbl.setBounds(71, 222, 42, 15);
+		drink1SelectedLbl.setBounds(125, 222, 25, 15);
 		drink1SelectedLbl.setText("0");
 		
 		Label drink2SelectedLbl = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
 		drink2SelectedLbl.setText("0");
 		drink2SelectedLbl.setAlignment(SWT.RIGHT);
-		drink2SelectedLbl.setBounds(221, 222, 42, 15);
+		drink2SelectedLbl.setBounds(275, 222, 25, 15);
 		
 		Button drink2PlusBtn = new Button(shlSelfserviceDrinkDispenser, SWT.NONE);
 		drink2PlusBtn.setText("+1");
@@ -305,7 +454,7 @@ public class MainGUI {
 		Label drink3SelectedLbl = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
 		drink3SelectedLbl.setText("0");
 		drink3SelectedLbl.setAlignment(SWT.RIGHT);
-		drink3SelectedLbl.setBounds(373, 222, 42, 15);
+		drink3SelectedLbl.setBounds(425, 222, 25, 15);
 		
 		Button drink4PlusBtn = new Button(shlSelfserviceDrinkDispenser, SWT.NONE);
 		drink4PlusBtn.setText("+1");
@@ -330,7 +479,7 @@ public class MainGUI {
 		Label drink4SelectedLbl = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
 		drink4SelectedLbl.setText("0");
 		drink4SelectedLbl.setAlignment(SWT.RIGHT);
-		drink4SelectedLbl.setBounds(527, 222, 42, 15);
+		drink4SelectedLbl.setBounds(575, 222, 25, 15);
 		
 		Button drink5PlusBtn = new Button(shlSelfserviceDrinkDispenser, SWT.NONE);
 		drink5PlusBtn.setText("+1");
@@ -355,7 +504,7 @@ public class MainGUI {
 		Label drink5SelectedLbl = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
 		drink5SelectedLbl.setText("0");
 		drink5SelectedLbl.setAlignment(SWT.RIGHT);
-		drink5SelectedLbl.setBounds(669, 222, 42, 15);
+		drink5SelectedLbl.setBounds(725, 222, 25, 15);
 		
 		Button drink6PlusBtn = new Button(shlSelfserviceDrinkDispenser, SWT.NONE);
 		drink6PlusBtn.setText("+1");
@@ -380,7 +529,7 @@ public class MainGUI {
 		Label drink6SelectedLbl = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
 		drink6SelectedLbl.setText("0");
 		drink6SelectedLbl.setAlignment(SWT.RIGHT);
-		drink6SelectedLbl.setBounds(71, 458, 42, 15);
+		drink6SelectedLbl.setBounds(125, 458, 25, 15);
 		
 		Button drink7PlusBtn = new Button(shlSelfserviceDrinkDispenser, SWT.NONE);
 		drink7PlusBtn.setText("+1");
@@ -405,7 +554,7 @@ public class MainGUI {
 		Label drink7SelectedLbl = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
 		drink7SelectedLbl.setText("0");
 		drink7SelectedLbl.setAlignment(SWT.RIGHT);
-		drink7SelectedLbl.setBounds(221, 458, 42, 15);
+		drink7SelectedLbl.setBounds(275, 458, 25, 15);
 		
 		Button drink8PlusBtn = new Button(shlSelfserviceDrinkDispenser, SWT.NONE);
 		drink8PlusBtn.setText("+1");
@@ -430,7 +579,7 @@ public class MainGUI {
 		Label drink8SelectedLbl = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
 		drink8SelectedLbl.setText("0");
 		drink8SelectedLbl.setAlignment(SWT.RIGHT);
-		drink8SelectedLbl.setBounds(373, 458, 42, 15);
+		drink8SelectedLbl.setBounds(425, 458, 25, 15);
 		
 		Button drink9PlusBtn = new Button(shlSelfserviceDrinkDispenser, SWT.NONE);
 		drink9PlusBtn.setText("+1");
@@ -455,7 +604,7 @@ public class MainGUI {
 		Label drink9SelectedLbl = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
 		drink9SelectedLbl.setText("0");
 		drink9SelectedLbl.setAlignment(SWT.RIGHT);
-		drink9SelectedLbl.setBounds(527, 458, 42, 15);
+		drink9SelectedLbl.setBounds(575, 458, 25, 15);
 		
 		Button drink10PlusBtn = new Button(shlSelfserviceDrinkDispenser, SWT.NONE);
 		drink10PlusBtn.setText("+1");
@@ -480,172 +629,178 @@ public class MainGUI {
 		Label drink10SelectedLbl = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
 		drink10SelectedLbl.setText("0");
 		drink10SelectedLbl.setAlignment(SWT.RIGHT);
-		drink10SelectedLbl.setBounds(669, 458, 42, 15);	
-
-		Label lblPayByMoney = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
-		lblPayByMoney.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.BOLD));
-		lblPayByMoney.setBounds(74, 498, 86, 15);
-		lblPayByMoney.setText("Pay By Money");
+		drink10SelectedLbl.setBounds(725, 458, 25, 15);	
 		
-		Button btnMoney1 = new Button(shlSelfserviceDrinkDispenser, SWT.NONE);
-		btnMoney1.setBounds(37, 519, 75, 25);
-		btnMoney1.setText("10c");
-		btnMoney1.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				pressMoneyButton(0);
-			}
-		});
-		
-		Button btnMoney2 = new Button(shlSelfserviceDrinkDispenser, SWT.NONE);
-		btnMoney2.setBounds(37, 550, 75, 25);
-		btnMoney2.setText("20c");
-		btnMoney2.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				pressMoneyButton(1);
-			}
-		});
-		
-		Button btnMoney3 = new Button(shlSelfserviceDrinkDispenser, SWT.NONE);
-		btnMoney3.setBounds(37, 581, 75, 25);
-		btnMoney3.setText("50c");
-		btnMoney3.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				pressMoneyButton(2);
-			}
-		});
-		
-		Button btnMoney4 = new Button(shlSelfserviceDrinkDispenser, SWT.NONE);
-		btnMoney4.setBounds(37, 612, 75, 25);
-		btnMoney4.setText("1 Euro");
-		btnMoney4.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				pressMoneyButton(3);
-			}
-		});
-		
-		Button btnMoney5 = new Button(shlSelfserviceDrinkDispenser, SWT.NONE);
-		btnMoney5.setBounds(118, 519, 75, 25);
-		btnMoney5.setText("2 Euro");
-		btnMoney5.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				pressMoneyButton(4);
-			}
-		});
-		
-		Button btnMoney6 = new Button(shlSelfserviceDrinkDispenser, SWT.NONE);
-		btnMoney6.setBounds(118, 550, 75, 25);
-		btnMoney6.setText("5 Euro");
-		btnMoney6.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				pressMoneyButton(5);
-			}
-		});
-		
-		Button btnMoney7 = new Button(shlSelfserviceDrinkDispenser, SWT.NONE);
-		btnMoney7.setBounds(118, 581, 75, 25);
-		btnMoney7.setText("10 Euro");
-		btnMoney7.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				pressMoneyButton(6);
-			}
-		});
-		
-		Button btnMoney8 = new Button(shlSelfserviceDrinkDispenser, SWT.NONE);
-		btnMoney8.setBounds(118, 612, 75, 25);
-		btnMoney8.setText("20 Euro");
-		btnMoney8.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				pressMoneyButton(7);
-			}
-		});
-		
-		Button btnCancel = new Button(shlSelfserviceDrinkDispenser, SWT.NONE);
-		btnCancel.setBounds(81, 643, 75, 25);
-		btnCancel.setText("Cancel");
-		btnCancel.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				pressCancelButton();
-			}
-		});
-		
-		Label lblTotalDueText = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
-		lblTotalDueText.setBounds(221, 550, 86, 15);
-		lblTotalDueText.setText("Total Due :");
-		
-		Label lblInsertedMoney = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
-		lblInsertedMoney.setBounds(221, 576, 90, 15);
-		lblInsertedMoney.setText("Inserted Money :");
-		
-		lblTotalDueVal = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
-		lblTotalDueVal.setAlignment(SWT.RIGHT);
-		lblTotalDueVal.setBounds(326, 550, 65, 15);
-		lblTotalDueVal.setText("0.00 Euro");
-		
-		lblInsertedMoneyVal = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
-		lblInsertedMoneyVal.setAlignment(SWT.RIGHT);
-		lblInsertedMoneyVal.setBounds(326, 576, 65, 15);
-		lblInsertedMoneyVal.setText("0.00 Euro");
-		
-		Label lblPayByCard = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
-		lblPayByCard.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.BOLD));
-		lblPayByCard.setBounds(597, 498, 65, 15);
-		lblPayByCard.setText("Pay By Card");
-		
-		Label lblAccountNo = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
-		lblAccountNo.setBounds(494, 541, 75, 15);
-		lblAccountNo.setText("Account No.:");
-		
-		accNoField = new Text(shlSelfserviceDrinkDispenser, SWT.BORDER);
-		accNoField.setBounds(578, 538, 110, 21);
-		accNoField.addListener(SWT.KeyDown, new Listener(){
-
-			@Override
-			public void handleEvent(Event event) {
-				// TODO Auto-generated method stub
+		Group grpPayWithMoney = new Group(shlSelfserviceDrinkDispenser, SWT.NONE);
+		grpPayWithMoney.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.BOLD | SWT.ITALIC));
+		grpPayWithMoney.setText("Pay with Money");
+		grpPayWithMoney.setBounds(10, 498, 412, 204);
+				
+				Button btnMoney1 = new Button(grpPayWithMoney, SWT.NONE);
+				btnMoney1.setBounds(14, 43, 75, 25);
+				btnMoney1.setText("10c");
+				btnMoney1.addSelectionListener(new SelectionAdapter() {
+					@Override
+					public void widgetSelected(SelectionEvent e) {
+						pressMoneyButton(0);
+					}
+				});
+				
+				moneyButtons[0] = btnMoney1; 
+				
+				Button btnMoney2 = new Button(grpPayWithMoney, SWT.NONE);
+				btnMoney2.setBounds(14, 74, 75, 25);
+				btnMoney2.setText("20c");
+				btnMoney2.addSelectionListener(new SelectionAdapter() {
+					@Override
+					public void widgetSelected(SelectionEvent e) {
+						pressMoneyButton(1);
+					}
+				});
+				moneyButtons[1] = btnMoney2; 
+				
+				Button btnMoney3 = new Button(grpPayWithMoney, SWT.NONE);
+				btnMoney3.setBounds(14, 105, 75, 25);
+				btnMoney3.setText("50c");
+				btnMoney3.addSelectionListener(new SelectionAdapter() {
+					@Override
+					public void widgetSelected(SelectionEvent e) {
+						pressMoneyButton(2);
+					}
+				});
+				moneyButtons[2] = btnMoney3; 
+				
+				Button btnMoney4 = new Button(grpPayWithMoney, SWT.NONE);
+				btnMoney4.setBounds(14, 136, 75, 25);
+				btnMoney4.setText("1 Euro");
+				btnMoney4.addSelectionListener(new SelectionAdapter() {
+					@Override
+					public void widgetSelected(SelectionEvent e) {
+						pressMoneyButton(3);
+					}
+				});
+				moneyButtons[3] = btnMoney4;
+				
+				Button btnMoney5 = new Button(grpPayWithMoney, SWT.NONE);
+				btnMoney5.setBounds(95, 43, 75, 25);
+				btnMoney5.setText("2 Euro");
+				btnMoney5.addSelectionListener(new SelectionAdapter() {
+					@Override
+					public void widgetSelected(SelectionEvent e) {
+						pressMoneyButton(4);
+					}
+				});
+				moneyButtons[4] = btnMoney5; 
+				
+				Button btnMoney6 = new Button(grpPayWithMoney, SWT.NONE);
+				btnMoney6.setBounds(95, 74, 75, 25);
+				btnMoney6.setText("5 Euro");
+				btnMoney6.addSelectionListener(new SelectionAdapter() {
+					@Override
+					public void widgetSelected(SelectionEvent e) {
+						pressMoneyButton(5);
+					}
+				});
+				moneyButtons[5] = btnMoney6; 
+				
+				Button btnMoney7 = new Button(grpPayWithMoney, SWT.NONE);
+				btnMoney7.setBounds(95, 105, 75, 25);
+				btnMoney7.setText("10 Euro");
+				btnMoney7.addSelectionListener(new SelectionAdapter() {
+					@Override
+					public void widgetSelected(SelectionEvent e) {
+						pressMoneyButton(6);
+					}
+				});
+				moneyButtons[6] = btnMoney7; 
+				
+				Button btnMoney8 = new Button(grpPayWithMoney, SWT.NONE);
+				btnMoney8.setBounds(95, 136, 75, 25);
+				btnMoney8.setText("20 Euro");
+				btnMoney8.addSelectionListener(new SelectionAdapter() {
+					@Override
+					public void widgetSelected(SelectionEvent e) {
+						pressMoneyButton(7);
+					}
+				});
+				moneyButtons[7] = btnMoney8;
+				
+				Button btnCancel = new Button(grpPayWithMoney, SWT.NONE);
+				btnCancel.setBounds(53, 169, 75, 25);
+				btnCancel.setText("Cancel");
+				
+				Label lblTotalDueText = new Label(grpPayWithMoney, SWT.NONE);
+				lblTotalDueText.setBounds(198, 79, 86, 15);
+				lblTotalDueText.setText("Total Due :");
+				
+				Label lblInsertedMoney = new Label(grpPayWithMoney, SWT.NONE);
+				lblInsertedMoney.setBounds(198, 110, 90, 15);
+				lblInsertedMoney.setText("Inserted Money :");
+				
+				lblTotalDueVal = new Label(grpPayWithMoney, SWT.NONE);
+				lblTotalDueVal.setBounds(303, 79, 65, 15);
+				lblTotalDueVal.setAlignment(SWT.RIGHT);
+				lblTotalDueVal.setText("0.00 Euro");
+				
+				lblInsertedMoneyVal = new Label(grpPayWithMoney, SWT.NONE);
+				lblInsertedMoneyVal.setBounds(303, 110, 65, 15);
+				lblInsertedMoneyVal.setAlignment(SWT.RIGHT);
+				lblInsertedMoneyVal.setText("0.00 Euro");
+				
+				Group grpPayWithCard = new Group(shlSelfserviceDrinkDispenser, SWT.NONE);
+				grpPayWithCard.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.BOLD | SWT.ITALIC));
+				grpPayWithCard.setText("Pay with Card");
+				grpPayWithCard.setBounds(433, 498, 317, 204);
+				
+				accNoField = new Text(grpPayWithCard, SWT.BORDER);
+				accNoField.setBounds(120, 76, 110, 21);
+				
+				Button magicButton = new Button(grpPayWithCard, SWT.NONE);
+				magicButton.setBounds(236, 74, 56, 25);
+				magicButton.setText("Magic");
+				
+				lblDynamicBalance = new Label(grpPayWithCard, SWT.NONE);
+				lblDynamicBalance.setBounds(120, 110, 172, 15);
+				lblDynamicBalance.setAlignment(SWT.RIGHT);
+				lblDynamicBalance.setText("Click \"Magic\" to find out!");
+				
+				btnInsertCard = new Button(grpPayWithCard, SWT.NONE);
+				btnInsertCard.setBounds(137, 169, 75, 25);
+				btnInsertCard.setText("Insert Card");
 				btnInsertCard.setEnabled(false);
-			}
-			
-			
-		});
-		
-		Button magicButton = new Button(shlSelfserviceDrinkDispenser, SWT.NONE);
-		magicButton.setBounds(694, 536, 55, 25);
-		magicButton.setText("Magic");
-		magicButton.addSelectionListener(new SelectionAdapter(){
-			@Override
-			public void widgetSelected(SelectionEvent e){
-				pressMagicButton();
-			}
-		});
-		
-		Label lblCardBalance = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
-		lblCardBalance.setBounds(494, 576, 86, 15);
-		lblCardBalance.setText("Card Balance:");
-		
-		lblDynamicBalance = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
-		lblDynamicBalance.setAlignment(SWT.RIGHT);
-		lblDynamicBalance.setBounds(578, 576, 172, 15);
-		lblDynamicBalance.setText("Click \"Magic\" to find out!");
-		
-		btnInsertCard = new Button(shlSelfserviceDrinkDispenser, SWT.NONE);
-		btnInsertCard.setBounds(597, 612, 75, 25);
-		btnInsertCard.setText("Insert Card");
-		btnInsertCard.setEnabled(false);
-		btnInsertCard.addSelectionListener(new SelectionAdapter(){
-			@Override
-			public void widgetSelected(SelectionEvent e){
-				pressInsertCardButton();
-			}
-		});
+				
+				Label lblCardBalance = new Label(grpPayWithCard, SWT.NONE);
+				lblCardBalance.setBounds(36, 110, 86, 15);
+				lblCardBalance.setText("Card Balance :");
+				
+				Label lblAccountNo = new Label(grpPayWithCard, SWT.NONE);
+				lblAccountNo.setBounds(36, 79, 75, 15);
+				lblAccountNo.setText("Account No. :");
+				btnInsertCard.addSelectionListener(new SelectionAdapter(){
+					@Override
+					public void widgetSelected(SelectionEvent e){
+						pressInsertCardButton();
+					}
+				});
+				magicButton.addSelectionListener(new SelectionAdapter(){
+					@Override
+					public void widgetSelected(SelectionEvent e){
+						pressMagicButton();
+					}
+				});
+				accNoField.addListener(SWT.KeyDown, new Listener(){
+
+					@Override
+					public void handleEvent(Event event) {
+						btnInsertCard.setEnabled(false);
+					}			
+				});
+				btnCancel.addSelectionListener(new SelectionAdapter() {
+					@Override
+					public void widgetSelected(SelectionEvent e) {
+						pressCancelButton();
+					}
+				});
 		
 		textOutput = new Text(shlSelfserviceDrinkDispenser, SWT.BORDER | SWT.READ_ONLY | SWT.WRAP);
 		textOutput.setBackground(SWTResourceManager.getColor(255, 255, 255));
@@ -655,6 +810,21 @@ public class MainGUI {
 		lblOutput.setFont(SWTResourceManager.getFont("Segoe UI Semibold", 14, SWT.BOLD));
 		lblOutput.setBounds(790, 10, 95, 25);
 		lblOutput.setText("Output:");		
+		
+		Label[] priceLabels = new Label[10];
+		priceLabels[0] = drink1Price; priceLabels[1] = drink2Price; priceLabels[2] = drink3Price; priceLabels[3] = drink4Price;
+		priceLabels[4] = drink5Price; priceLabels[5] = drink6Price; priceLabels[6] = drink7Price; priceLabels[7] = drink8Price; 
+		priceLabels[8] = drink9Price; priceLabels[9] = drink10Price; 
+		
+		for (int count = 0; count < 10; count++)
+			priceLabels[count].setText(String.valueOf(controller.getDrinkStock().get(count).getValue()));		
+		
+		drinksStockLabels[0] = drink1StockLbl; drinksStockLabels[1] = drink2StockLbl; drinksStockLabels[2] = drink3StockLbl; drinksStockLabels[3] = drink4StockLbl;
+		drinksStockLabels[4] = drink5StockLbl; drinksStockLabels[5] = drink6StockLbl; drinksStockLabels[6] = drink7StockLbl; drinksStockLabels[7] = drink8StockLbl; 
+		drinksStockLabels[8] = drink9StockLbl; drinksStockLabels[9] = drink10StockLbl; 
+		
+		for (int count = 0; count < 10; count++)
+			drinksStockLabels[count].setText(String.valueOf(controller.getDrinkStock().get(count).getQuantity()));
 		
 		drinksPlusButtons[0] = drink1PlusBtn; drinksPlusButtons[1] = drink2PlusBtn; drinksPlusButtons[2] = drink3PlusBtn; drinksPlusButtons[3] = drink4PlusBtn;
 		drinksPlusButtons[4] = drink5PlusBtn; drinksPlusButtons[5] = drink6PlusBtn; drinksPlusButtons[6] = drink7PlusBtn; drinksPlusButtons[7] = drink8PlusBtn;
@@ -668,8 +838,7 @@ public class MainGUI {
 		drinksSelectedLabels[4] = drink5SelectedLbl; drinksSelectedLabels[5] = drink6SelectedLbl; drinksSelectedLabels[6] = drink7SelectedLbl; drinksSelectedLabels[7] = drink8SelectedLbl;
 		drinksSelectedLabels[8] = drink9SelectedLbl; drinksSelectedLabels[9] = drink10SelectedLbl;
 		
-		moneyButtons[0] = btnMoney1; moneyButtons[1] = btnMoney2; moneyButtons[2] = btnMoney3; moneyButtons[3] = btnMoney4;
-		moneyButtons[4] = btnMoney5; moneyButtons[5] = btnMoney6; moneyButtons[6] = btnMoney7; moneyButtons[7] = btnMoney8;
+	//	priceLabels[0] = 
 		
 	}
 	
@@ -745,5 +914,14 @@ public class MainGUI {
 
 	public void outputText(String output) {
 		this.textOutput.setText(output);
+	}
+
+	public void setAccBalanceLabel(double newBalance) {
+		lblDynamicBalance.setText(String.valueOf(newBalance));		
+	}
+
+	public void updateStockLabels() {
+		for (int index = 0; index < 10; index++)
+			drinksStockLabels[index].setText(String.valueOf(controller.getDrinkStock().get(index).getQuantity()));		
 	}
 }
