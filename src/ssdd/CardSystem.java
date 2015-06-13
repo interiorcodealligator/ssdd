@@ -53,7 +53,7 @@ public class CardSystem {
 	 */
 	public void processPayment(double totalDue) {
 		// TODO - implement CardSystem.processPayment
-		bankCard.setBalance(bankCard.getBalance() - totalDue);		
+		bankCard.setBalance(fixDoubleError(bankCard.getBalance() - totalDue));		
 	}
 
 	/**
@@ -72,11 +72,17 @@ public class CardSystem {
 		double rangeMax = 1000.0;
 		Random r = new Random();
 		double randomValue = rangeMin + (rangeMax - rangeMin) * r.nextDouble();
-		randomValue *= 100;
-		randomValue = Math.round(randomValue);
-		randomValue /= 100;
+		randomValue = fixDoubleError(randomValue);
+		//no reference
 		savedBankCards.add(new Card(accountNo, randomValue));
 		return new Card(accountNo, randomValue);
+	}
+	
+	public double fixDoubleError(double value){
+		value *= 100;
+		value = Math.round(value);
+		value /= 100;
+		return value;
 	}
 
 }

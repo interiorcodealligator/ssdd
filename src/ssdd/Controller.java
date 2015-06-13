@@ -33,7 +33,7 @@ public class Controller {
 		if(this.drinkDispenser.checkIfDrinkAvailable(currentDrink, selectedDrinks.get(drinkIndex).getQuantity())){
 			this.selectedDrinks.get(drinkIndex).addOne();
 			double totalDue = this.calculateTotalDue();
-			this.fixDoubleError(totalDue);
+			totalDue = moneySystem.fixDoubleError(totalDue);
 			this.moneySystem.setTotalDue(totalDue);
 			this.mainGUI.updateSelectedDrink(drinkIndex, selectedDrinks.get(drinkIndex).getQuantity());
 			this.mainGUI.updateTotalDue(totalDue);
@@ -48,7 +48,7 @@ public class Controller {
 		if(selectedDrinks.get(drinkIndex).getQuantity() > 0){
 			this.selectedDrinks.get(drinkIndex).takeOne();		
 			double totalDue = this.calculateTotalDue();
-			this.fixDoubleError(totalDue);
+			totalDue = moneySystem.fixDoubleError(totalDue);
 			this.moneySystem.setTotalDue(totalDue);
 			this.mainGUI.updateSelectedDrink(drinkIndex, selectedDrinks.get(drinkIndex).getQuantity());
 			this.mainGUI.updateTotalDue(totalDue);
@@ -76,6 +76,7 @@ public class Controller {
 		}
 		System.out.println("Inserted " + this.moneySystem.getMoneyInfo(moneyIndex) + "\n"
 				+ "there are " + this.moneySystem.getMoneyInfo(moneyIndex).getQuantity() + " " + this.moneySystem.getMoneyInfo(moneyIndex));
+		System.out.println("Inserted money is " + this.moneySystem.getInsertedMoney());
 	}
 
 	/**
@@ -114,8 +115,8 @@ public class Controller {
 		 * 4. reset
 		 */
 		this.drinkDispenser.dispenseDrinks(selectedDrinks);
-		double plannedChange = this.moneySystem.getInsertedMoney() - this.moneySystem.getTotalDue();
-		plannedChange = this.fixDoubleError(plannedChange);
+		double plannedChange = moneySystem.fixDoubleError(this.moneySystem.getInsertedMoney() - this.moneySystem.getTotalDue());
+		//plannedChange = this.fixDoubleError(plannedChange);
 		List<Money> change = this.moneySystem.returnChange(plannedChange);
 		String output = "";		
 		double givenChange = 0.0;
@@ -125,14 +126,12 @@ public class Controller {
 		for(Item d : selectedDrinks){
 			if(d.getQuantity() != 0) output += "Got " + d.getQuantity() + " " + d.getName() + "\n";
 		}
-		output += "Change: \n";
+		if(plannedChange > 0)output += "Change: \n";
 		for(Money coin : change)
 		{
 			output += "Got " + coin.getQuantity() + " x " + coin.getName() + "\n";
-			givenChange += coin.getValue() * coin.getQuantity();
+			givenChange += moneySystem.fixDoubleError(coin.getValue() * coin.getQuantity());
 		}
-		givenChange = this.fixDoubleError(givenChange);	
-		plannedChange = this.fixDoubleError(plannedChange);
 		if(givenChange != plannedChange) output += "Oops sorry no more change!" + " " + givenChange + " " + plannedChange;
 		this.mainGUI.outputText(output);
 		
@@ -156,6 +155,7 @@ public class Controller {
 		}
 		
 		output += "Payment successful, pick up your drinks!\n";
+		output += "Your new card balance is " + card.getBalance();
 		this.mainGUI.outputText(output);
 		this.mainGUI.setAccBalanceLabel(card.getBalance());
 		
@@ -216,12 +216,5 @@ public class Controller {
 	
 	public List<Money> getMoneyStock(){
 		return this.moneySystem.getAllMoney();
-	}
-	
-	public double fixDoubleError(double value){
-		value *= 100;
-		value = (int)value;
-		value /= 100;
-		return value;
 	}
 }

@@ -92,6 +92,8 @@ public class MoneySystem {
 				int q = 0;
 				while(m.getQuantity() > 0 && amount >= m.getValue()){
 					amount -= m.getValue();
+					amount = this.fixDoubleError(amount);
+					System.out.println("amount left " + amount);
 					q++;
 					m.takeOne();
 				}
@@ -118,12 +120,14 @@ public class MoneySystem {
 		// TODO Auto-generated method stub
 		allMoney.get(moneyIndex).addOne();
 		insertedMoney += this.getMoneyInfo(moneyIndex).getValue();
+		insertedMoney = fixDoubleError(insertedMoney);
 	}
 	
 	public double fixDoubleError(double value){
-		value *= 100;
-		value = (int)value;
-		value /= 100;
+		value *= 10;
+		//value = (int)value;
+		value = Math.round(value);
+		value /= 10;
 		return value;
 	}
 

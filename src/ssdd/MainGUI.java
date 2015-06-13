@@ -917,7 +917,7 @@ public class MainGUI {
 	}
 
 	public void setAccBalanceLabel(double newBalance) {
-		lblDynamicBalance.setText(String.valueOf(newBalance));		
+		lblDynamicBalance.setText(String.valueOf(newBalance) + " Euro");		
 	}
 
 	public void updateStockLabels() {
