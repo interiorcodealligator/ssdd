@@ -588,7 +588,7 @@ public class MainGUI {
 		lblTotalDueVal = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
 		lblTotalDueVal.setAlignment(SWT.RIGHT);
 		lblTotalDueVal.setBounds(326, 550, 65, 15);
-		lblTotalDueVal.setText("10.00 Euro");
+		lblTotalDueVal.setText("0.00 Euro");
 		
 		lblInsertedMoneyVal = new Label(shlSelfserviceDrinkDispenser, SWT.NONE);
 		lblInsertedMoneyVal.setAlignment(SWT.RIGHT);
