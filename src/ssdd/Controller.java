@@ -85,6 +85,7 @@ public class Controller {
 	 */
 	public void insertCard(long accountNo) {
 		double totalDue = moneySystem.getTotalDue();
+		if(totalDue == 0.0) return;
 		this.cardSystem.insertCard(cardSystem.getCard(accountNo));
 		if(this.cardSystem.hasEnoughBalance(totalDue)){
 			this.cardSystem.processPayment(totalDue);
@@ -173,7 +174,8 @@ public class Controller {
 			drink.setQuantity(0);
 			this.mainGUI.updateSelectedDrink(i, 0);
 			i++;
-		}	
+		}
+		this.mainGUI.btnInsertCard.setEnabled(false);
 	}
 
 	/**
