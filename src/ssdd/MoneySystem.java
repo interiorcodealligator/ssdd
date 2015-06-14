@@ -97,7 +97,6 @@ public class MoneySystem {
 				while(m.getQuantity() > 0 && amount >= m.getValue()){
 					amount -= m.getValue();
 					amount = this.fixDoubleError(amount);
-					System.out.println("amount left " + amount);
 					q++;
 					m.takeOne();
 				}

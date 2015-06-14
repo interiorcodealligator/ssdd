@@ -82,9 +82,6 @@ public class Controller {
 				this.mainGUI.updateInsertedMoney(this.moneySystem.getInsertedMoney());
 			}
 		}
-		System.out.println("Inserted " + this.moneySystem.getMoneyInfo(moneyIndex) + "\n"
-				+ "there are " + this.moneySystem.getMoneyInfo(moneyIndex).getQuantity() + " " + this.moneySystem.getMoneyInfo(moneyIndex));
-		System.out.println("Inserted money is " + this.moneySystem.getInsertedMoney());
 	}
 
 	/**
