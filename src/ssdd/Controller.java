@@ -127,13 +127,18 @@ public class Controller {
 		for(Item d : selectedDrinks){
 			if(d.getQuantity() != 0) output += "Got " + d.getQuantity() + " " + d.getName() + "\n";
 		}
-		if(plannedChange > 0)output += "Change: \n";
+		if(plannedChange > 0) {
+			output += "Change: \n";
+			output += "Your due change is: " + plannedChange+ "\n";
+		}
 		for(Money coin : change)
 		{
 			output += "Got " + coin.getQuantity() + " x " + coin.getName() + "\n";
 			givenChange += moneySystem.fixDoubleError(coin.getValue() * coin.getQuantity());
 		}
-		if(givenChange != plannedChange) output += "Oops sorry no more change!" + " " + givenChange + " " + plannedChange;
+		givenChange = moneySystem.fixDoubleError(givenChange);
+		if(givenChange != plannedChange) 
+			output += "Oops sorry no more change! You only received " + givenChange+ "\n";
 		this.mainGUI.outputText(output);
 		
 		this.reset();
