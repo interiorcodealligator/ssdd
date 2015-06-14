@@ -1,0 +1,8 @@
+10c|0.10|20|true
+20c|0.20|20|true
+50c|0.5|20|true
+1 Euro|1.0|20|true
+2 Euro|2.0|20|true
+5 Euro|5.0|20|false
+10 Euro|10.0|20|false
+20 Euro|20.0|20|false

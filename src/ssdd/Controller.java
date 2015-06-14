@@ -8,12 +8,20 @@ public class Controller {
 	private DrinkDispenser drinkDispenser;
 	private MoneySystem moneySystem;
 	private CardSystem cardSystem;
+	private FileReader fileReader;
 	MainGUI mainGUI;
 
 	public Controller(){
 		selectedDrinks = new ArrayList<Item>();
-		drinkDispenser = new DrinkDispenser();
-		moneySystem = new MoneySystem();
+		fileReader = new FileReader();
+		if(fileReader.loadAllDrinks() == null)
+			drinkDispenser = new DrinkDispenser();
+		else 
+			drinkDispenser = new DrinkDispenser(fileReader.loadAllDrinks());
+		if(fileReader.loadAllMoney() == null)
+			moneySystem = new MoneySystem();
+		else
+			moneySystem = new MoneySystem(fileReader.loadAllMoney());
 		cardSystem = new CardSystem();
 		selectedDrinks = new ArrayList<Item>();
 		for(Item e : this.drinkDispenser.getDrinkStock()){

@@ -66,7 +66,11 @@ public class MoneySystem {
 	 */
 	public MoneySystem(List<Money> money) {
 		// TODO - implement MoneySystem.MoneySystem
-		throw new UnsupportedOperationException();
+		allMoney = new ArrayList<Money>();
+		for(Money e : money)
+			allMoney.add(e);
+		this.insertedMoney = 0.00;
+		this.totalDue = 0.00;
 	}
 
 	/**

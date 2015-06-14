@@ -1,0 +1,10 @@
+NotCoke|1.10|20
+Sprite|1.10|20
+Beer|2.30|20
+Light Beer|2.40|20
+Fun Beer|2.10|20
+Mineral Water|1.00|20
+Apple Juice|1.80|20
+Orange Juice|1.90|20
+Tomato Juice|1.90|20
+Wine|2.80|20
