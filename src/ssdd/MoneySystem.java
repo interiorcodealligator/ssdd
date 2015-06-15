@@ -12,7 +12,7 @@ public class MoneySystem {
 		return this.allMoney;
 	}
 
-	public void ListAllMoney(List<Money> allMoney) {
+	public void setAllMoney(List<Money> allMoney) {
 		this.allMoney = allMoney;
 	}
 
@@ -21,10 +21,6 @@ public class MoneySystem {
 	}
 	
 	public void setInsertedMoney(double insertedMoney) {
-		this.insertedMoney = insertedMoney;
-	}
-
-	public void ListInsertedMoney(double insertedMoney) {
 		this.insertedMoney = insertedMoney;
 	}
 
@@ -37,9 +33,6 @@ public class MoneySystem {
 		this.totalDue = totalDue;
 	}
 
-	public void ListTotalDue(double totalDue) {
-		this.totalDue = totalDue;
-	}
 
 	public MoneySystem() {
 		// TODO - implement MoneySystem.MoneySystem
@@ -73,14 +66,6 @@ public class MoneySystem {
 		this.totalDue = 0.00;
 	}
 
-	/**
-	 * 
-	 * @param insertedMoney
-	 */
-	public void insertMoney(Money insertedMoney) {
-		// TODO - implement MoneySystem.insertMoney
-		throw new UnsupportedOperationException();
-	}
 
 	public boolean checkIfPaymentComplete() {
 		// TODO - implement MoneySystem.checkIfPaymentComplete

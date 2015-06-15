@@ -27,7 +27,6 @@ public class MainGUI {
 	Text accNoField;
 	Text textOutput;
 	Label lblDynamicBalance;
-	public static final String CURRENCY = "Euro";
 	
 	Button[] drinksPlusButtons = new Button[10];
 	Button[] drinksMinusButtons = new Button[10];
@@ -897,10 +896,6 @@ public class MainGUI {
 			btnInsertCard.setEnabled(true);
 			
 		}
-	}
-	public void showFinishedOutput(String output)
-	{
-		
 	}
 	public void setAccountBalance(double balance)
 	{
